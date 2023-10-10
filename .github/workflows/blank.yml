@@ -38,5 +38,5 @@ jobs:
       run: |
         docker build -t sample:123 .
         
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push 975148384510.dkr.ecr.ca-central-1.amazonaws.com/windowscontainer:1.0.0
 
