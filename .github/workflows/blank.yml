@@ -37,4 +37,6 @@ jobs:
         IMAGE_TAG: winTestImage
       run: 
         docker build -t "sample:$IMAGE_TAG" .
+
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
