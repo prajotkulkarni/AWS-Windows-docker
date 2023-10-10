@@ -36,7 +36,7 @@ jobs:
         ECR_REPOSITORY: windowscontainer
         IMAGE_TAG: winTestImage
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t sample:123 .
         
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TA
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
