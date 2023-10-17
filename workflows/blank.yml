@@ -32,7 +32,7 @@ jobs:
         run: |
           docker build -t mydotnetapp .
 
-          docker run -d -p 8005:8005 mydotnetapp
+          docker run -d -p 8005:80 mydotnetapp
 
 
          # docker tag appsdk:aapsdk4.8 481331750683.dkr.ecr.us-east-1.amazonaws.com/appimg:appsdk4.8
