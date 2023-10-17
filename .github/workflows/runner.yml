@@ -43,7 +43,7 @@ jobs:
         run: docker build -t local:appimgbmo .
 
       - name: Run Docker Container
-        run: docker run -d --name appimgbmo local:appimgbmo
+        run: docker run -d -p 8005:80 local:appimgbmo
 
       - name: List Local Docker Images
         run: docker images
