@@ -1,2 +1,0 @@
-# docker
-Testing Docker images
