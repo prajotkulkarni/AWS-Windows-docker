@@ -30,20 +30,20 @@ jobs:
           ECR_REPOSITORY: windowscontainer
           IMAGE_TAG: winTestImage
         run: |
-          docker build -t dotnetfw4.8 .
+          docker build -t aspnet4.8 .
 
-          docker tag dotnetfw4.8 481331750683.dkr.ecr.us-east-1.amazonaws.com/baseimg:dotnetfw4.8
+          docker tag aspnet4.8 481331750683.dkr.ecr.us-east-1.amazonaws.com/baseimg:aspnet4.8
 
-          docker push 481331750683.dkr.ecr.us-east-1.amazonaws.com/baseimg:dotnetfw4.8
+          docker push 481331750683.dkr.ecr.us-east-1.amazonaws.com/baseimg:aspnet4.8
 
       - name: Tag the Docker Image Locally
-        run: docker tag 481331750683.dkr.ecr.us-east-1.amazonaws.com/baseimg:dotnetfw4.8 local:dotnetfw4.8
+        run: docker tag 481331750683.dkr.ecr.us-east-1.amazonaws.com/baseimg:aspnet4.8 local:aspnet4.8
 
       - name: Create Local Docker Image
-        run: docker build -t local:dotnetfw4.8 .
+        run: docker build -t local:aspnet4.8 .
 
       - name: Run Docker Container
-        run: docker run -d --name dotnetfw4.8 local:dotnetfw4.8
+        run: docker run -d --name aspnet4.8 local:aspnet4.8
 
       - name: List Local Docker Images
         run: docker images
