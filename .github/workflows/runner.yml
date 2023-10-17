@@ -30,20 +30,20 @@ jobs:
           ECR_REPOSITORY: windowscontainer
           IMAGE_TAG: winTestImage
         run: |
-          docker build -t appimgBMO .
+          docker build -t appimg:bmo .
 
-          docker tag appimgBMO 481331750683.dkr.ecr.us-east-1.amazonaws.com/appimg:appimgBMO
+          docker tag appimg:bmo 481331750683.dkr.ecr.us-east-1.amazonaws.com/appimg:appimg:bmo
 
-          docker push 481331750683.dkr.ecr.us-east-1.amazonaws.com/appimg:appimgBMO
+          docker push 481331750683.dkr.ecr.us-east-1.amazonaws.com/appimg:appimg:bmo
 
       - name: Tag the Docker Image Locally
-        run: docker tag 481331750683.dkr.ecr.us-east-1.amazonaws.com/appimg:appimgBMO local:appimgBMO
+        run: docker tag 481331750683.dkr.ecr.us-east-1.amazonaws.com/appimg:appimg:bmo local:appimg:bmo
 
       - name: Create Local Docker Image
-        run: docker build -t local:appimgBMO .
+        run: docker build -t local:appimg:bmo .
 
       - name: Run Docker Container
-        run: docker run -d --name appimgBMO local:appimgBMO
+        run: docker run -d --name appimg:bmo local:appimg:bmo
 
       - name: List Local Docker Images
         run: docker images
