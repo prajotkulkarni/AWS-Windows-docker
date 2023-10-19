@@ -42,8 +42,8 @@ jobs:
 
       - name: Install Git
         run: |
-          # Download the Git for Windows installer
-          Invoke-WebRequest -Uri 'https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe' -OutFile 'C:\git-installer.exe'
+          # Download the Git for Windows installer using curl
+          curl -o C:\git-installer.exe -L https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe
 
           # Run the installer silently
           Start-Process -Wait -FilePath 'C:\git-installer.exe' -ArgumentList '/SILENT'
@@ -53,4 +53,3 @@ jobs:
 
           # Verify Git installation
           git --version
-        
