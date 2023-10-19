@@ -16,8 +16,8 @@ jobs:
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.ID }}
-          aws-secret-access-key: ${{ secrets.KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
       - name: Create EC2 Instance
@@ -28,5 +28,7 @@ jobs:
             --key-name ec2Win2022 \
             --security-group-ids sg-0de8cf629b11c00e5 \
             --subnet-id subnet-03be3039f3ef0ad2c
-            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=MyInstaName}]'
+            --query 'Instances[0].InstanceId' --output text)
+
+          aws ec2 create-tags --resources $instance_id --tags Key=Name,Value=MyInstaName
         # Replace "MyInstanceName" with the desired name for your instance.
