@@ -40,7 +40,6 @@ jobs:
           
           echo "EC2 instance is now in a running state."
 
-
       - name: Configure PowerShell
         run: |
           # Set the execution policy to Unrestricted for the current session
@@ -48,7 +47,9 @@ jobs:
           # Check PowerShell version
           powershell -Version
 
-      - name: echo '# Download the Git for Windows installer using curl' > install-git.ps1
+      - name: Create and run PowerShell script
+        run: |
+          echo '# Download the Git for Windows installer using curl' > install-git.ps1
           echo 'curl -o C:\git-installer.exe -L https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe' >> install-git.ps1
           echo '' >> install-git.ps1
           echo '# Run the installer silently' >> install-git.ps1
@@ -60,8 +61,7 @@ jobs:
           echo '# Verify Git installation' >> install-git.ps1
           echo 'git --version' >> install-git.ps1
 
-          powershell -File install-git.ps1
+          pwsh -File install-git.ps1
 
       - name: Verify Git installation
         run: git --version
-        
