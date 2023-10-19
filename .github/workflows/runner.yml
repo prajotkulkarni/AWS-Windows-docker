@@ -28,4 +28,5 @@ jobs:
             --key-name ec2Win2022 \
             --security-group-ids sg-0de8cf629b11c00e5 \
             --subnet-id subnet-03be3039f3ef0ad2c
+            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=MyUbunTestInsta}]'
         # You can customize this command as needed.
