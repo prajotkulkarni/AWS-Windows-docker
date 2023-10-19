@@ -35,7 +35,7 @@ jobs:
           # Wait for the EC2 instance to be in the "running" state
           while [[ "$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].State.Name' --output text)" != "running" ]]; do
               echo "Waiting for EC2 instance to be in a running state..."
-              sleep 10
+              sleep 100
           done
           
           echo "EC2 instance is now in a running state."
