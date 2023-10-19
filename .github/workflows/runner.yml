@@ -30,4 +30,11 @@ jobs:
             --subnet-id subnet-03be3039f3ef0ad2c \
             --query 'Instances[0].InstanceId' --output text)
           echo "EC2 instance ID: $instance_id"
+          
+          while [[ "$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].State.Name' --output text)" != "running" ]]; do
+              echo "Waiting for EC2 instance to be in running state..."
+              sleep 10
+          done
+          
+          echo "EC2 instance is now in a running state."
             
