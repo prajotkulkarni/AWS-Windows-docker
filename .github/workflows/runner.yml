@@ -28,8 +28,5 @@ jobs:
             --key-name ec2Win2022 \
             --security-group-ids sg-0de8cf629b11c00e5 \
             --subnet-id subnet-03be3039f3ef0ad2c
-
-      - name: Set Name Tag
-        run: |
-          aws ec2 create-tags --resources $instance_id --tags Key=Name,Value=MyTestInsta
-        # Replace "MyInstanceName" with the desired name for your instance.
+            --instance_id=$(aws ec2 run-instances ... --query 'Instances[0].InstanceId' --output text)
+            --aws ec2 create-tags --resources $instance_id --tags Key=Name,Value=MyInstaName
