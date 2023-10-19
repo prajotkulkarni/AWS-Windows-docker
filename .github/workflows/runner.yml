@@ -54,6 +54,8 @@ jobs:
           echo '# Verify Git installation' >> install-git.ps1
           echo 'git --version' >> install-git.ps1
 
+          pwsh -File install-git.ps1
+
           powershell -File install-git.ps1
 
       - name: Verify Git installation
