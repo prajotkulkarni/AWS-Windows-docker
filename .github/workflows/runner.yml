@@ -42,14 +42,19 @@ jobs:
 
       - name: Install Git
         run: |
-          # Download the Git for Windows installer using curl
-          curl -o C:\git-installer.exe -L https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe
+          echo '# Download the Git for Windows installer using curl' > install-git.ps1
+          echo 'curl -o C:\git-installer.exe -L https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe' >> install-git.ps1
+          echo '' >> install-git.ps1
+          echo '# Run the installer silently' >> install-git.ps1
+          echo 'Start-Process -Wait -FilePath "C:\git-installer.exe" -ArgumentList "/SILENT"' >> install-git.ps1
+          echo '' >> install-git.ps1
+          echo '# Add Git to the system PATH' >> install-git.ps1
+          echo '[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\Git\cmd", [System.EnvironmentVariableTarget]::Machine)' >> install-git.ps1
+          echo '' >> install-git.ps1
+          echo '# Verify Git installation' >> install-git.ps1
+          echo 'git --version' >> install-git.ps1
 
-          # Run the installer silently
-          Start-Process -Wait -FilePath 'C:\git-installer.exe' -ArgumentList '/SILENT'
+          powershell -File install-git.ps1
 
-          # Add Git to the system PATH
-          [System.Environment]::SetEnvironmentVariable('Path', $env:Path + ';C:\Program Files\Git\cmd', [System.EnvironmentVariableTarget]::Machine)
-
-          # Verify Git installation
-          git --version
+      - name: Verify Git installation
+        run: git --version
