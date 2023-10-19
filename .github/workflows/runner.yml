@@ -35,14 +35,22 @@ jobs:
           # Wait for the EC2 instance to be in the "running" state
           while [[ "$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].State.Name' --output text)" != "running" ]]; do
               echo "Waiting for EC2 instance to be in a running state..."
-              sleep 200
+              sleep 150
           done
           
           echo "EC2 instance is now in a running state."
 
-      - name: Display the path
-        shell: powershell
+      - name: Install Git
         run: |
-          Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-          refreshenv
+          # Download the Git for Windows installer
+          Invoke-WebRequest -Uri 'https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe' -OutFile 'C:\git-installer.exe'
+
+          # Run the installer silently
+          Start-Process -Wait -FilePath 'C:\git-installer.exe' -ArgumentList '/SILENT'
+
+          # Add Git to the system PATH
+          [System.Environment]::SetEnvironmentVariable('Path', $env:Path + ';C:\Program Files\Git\cmd', [System.EnvironmentVariableTarget]::Machine)
+
+          # Verify Git installation
+          git --version
         
