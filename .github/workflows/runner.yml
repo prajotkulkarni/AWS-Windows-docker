@@ -22,11 +22,15 @@ jobs:
 
       - name: Create EC2 Instance
         run: |
-          aws ec2 run-instances \
-            --image-id ami-005f8adf84f8c5057 \
+         instance_id=$(aws ec2 run-instances \
+            --image-id ami-12345678 \
             --instance-type t2.micro \
-            --key-name ec2Win2022 \
-            --security-group-ids sg-0de8cf629b11c00e5 \
-            --subnet-id subnet-03be3039f3ef0ad2c
-            --instance_id=$(aws ec2 run-instances ... --query 'Instances[0].InstanceId' --output text)
-            --aws ec2 create-tags --resources $instance_id --tags Key=Name,Value=MyInstaName
+            --key-name your-key-pair \
+            --security-group-ids sg-12345678 \
+            --subnet-id subnet-12345678 \
+            --query 'Instances[0].InstanceId' --output text)
+
+          aws ec2 create-tags --resources $instance_id --tags Key=Name,Value=MyInstanceName
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.KEY }}
