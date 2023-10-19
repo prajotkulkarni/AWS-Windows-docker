@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: Windows-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
@@ -31,19 +31,19 @@ jobs:
             --subnet-id subnet-03be3039f3ef0ad2c \
             --query 'Instances[0].InstanceId' --output text)
           echo "EC2 instance ID: $instance_id"
-          
+
           # Wait for the EC2 instance to be in the "running" state
           while [[ "$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].State.Name' --output text)" != "running" ]]; do
               echo "Waiting for EC2 instance to be in a running state..."
               sleep 150
           done
-          
+
           echo "EC2 instance is now in a running state."
 
       - name: Configure PowerShell
         run: |
           # Set the execution policy to Unrestricted for the current session
-          powershell -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted"
+          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted -Force
           # Check PowerShell version
           powershell -Version
 
