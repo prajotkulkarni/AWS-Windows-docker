@@ -22,7 +22,7 @@ jobs:
 
       - name: Create EC2 Instance
         run: |
-         instance_id=$(aws ec2 run-instances \
+          aws ec2 run-instances \
             --image-id ami-005f8adf84f8c5057 \
             --instance-type t2.micro \
             --key-name ec2Win2022 \
