@@ -48,8 +48,8 @@ jobs:
           # Specify the UserData script file
           user_data_file="userdata.ps1"
 
-          # Base64 encode the UserData script
-          user_data_base64=$(base64 -w0 "$user_data_file")
+          # Base64 encode the UserData script and save it to a file
+          user_data_base64=$(base64 -i "$user_data_file" -o user_data_base64.txt)
 
           # Set the UserData for the EC2 instance
-          aws ec2 modify-instance-attribute --instance-id $instance_id --user-data "Value=$user_data_base64"
+          aws ec2 modify-instance-attribute --instance-id $instance_id --user-data file://user_data_base64.txt
