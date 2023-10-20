@@ -35,7 +35,7 @@ jobs:
           # Wait for the EC2 instance to be in the "running" state
           while [[ "$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].State.Name' --output text)" != "running" ]]; do
               echo "Waiting for EC2 instance to be in a running state..."
-              sleep 15  # Changed sleep duration to 15 seconds
+              sleep 150
           done
 
           echo "EC2 instance is now in a running state."
@@ -43,13 +43,13 @@ jobs:
       - name: Add UserData
         run: |
           # Get the instance ID from the previous step
-          instance_id=$instance_id  # Use the instance_id from the previous step
+          instance_id=$instance_id
 
           # Specify the UserData script file
           user_data_file="userdata.ps1"
 
           # Base64 encode the UserData script and save it to a file
-          user_data_base64=$(base64 -i "$user_data_file" -o user_data_base64.txt)
+          base64 -w 0 "$user_data_file" > user_data_base64.txt
 
           # Set the UserData for the EC2 instance
           aws ec2 modify-instance-attribute --instance-id $instance_id --user-data file://user_data_base64.txt
