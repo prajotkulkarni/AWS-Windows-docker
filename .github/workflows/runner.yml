@@ -40,28 +40,16 @@ jobs:
 
           echo "EC2 instance is now in a running state."
 
-      - name: Configure PowerShell
+      - name: Add UserData
         run: |
-          # Set the execution policy to Unrestricted for the current session
-          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Unrestricted -Force
-          # Check PowerShell version
-          powershell -Version
+          # Get the instance ID from the previous step
+          instance_id=$(aws ec2 run-instances ...)
 
-      - name: Create and run PowerShell script
-        run: |
-          echo '# Download the Git for Windows installer using curl' > install-git.ps1
-          echo 'curl -o C:\git-installer.exe -L https://github.com/git-for-windows/git/releases/download/v2.33.1.windows.1/Git-2.33.1-64-bit.exe' >> install-git.ps1
-          echo '' >> install-git.ps1
-          echo '# Run the installer silently' >> install-git.ps1
-          echo 'Start-Process -Wait -FilePath "C:\git-installer.exe" -ArgumentList "/SILENT"' >> install-git.ps1
-          echo '' >> install-git.ps1
-          echo '# Add Git to the system PATH' >> install-git.ps1
-          echo '[System.Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\Git\cmd", [System.EnvironmentVariableTarget]::Machine)' >> install-git.ps1
-          echo '' >> install-git.ps1
-          echo '# Verify Git installation' >> install-git.ps1
-          echo 'git --version' >> install-git.ps1
+          # Specify the UserData script file
+          user_data_file="userdata.ps1"
 
-          pwsh -File install-git.ps1
+          # Base64 encode the UserData script
+          user_data_base64=$(base64 -w0 "$user_data_file")
 
-      - name: Verify Git installation
-        run: git --version
+          # Set the UserData for the EC2 instance
+          aws ec2 modify-instance-attribute --instance-id $instance_id --user-data "Value=$user_data_base64"
