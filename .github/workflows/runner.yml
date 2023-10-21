@@ -23,7 +23,7 @@ jobs:
       - name: Get PowerShell script content
         id: get-script-content
         run: |
-          script_content=$(cat userdata.ps1 | base64 -w 0)
+          script_content=$(cat datauser.txt | base64 -w 0)
           echo "::set-output name=script_content::$script_content"
         shell: bash
 
