@@ -37,7 +37,7 @@ jobs:
             --key-name ec2Win2022 \
             --security-group-ids sg-0de8cf629b11c00e5 \
             --subnet-id subnet-03be3039f3ef0ad2c \
-            --user-data "$script_content" \
+            --user-data "data:text/plain;base64,$script_content" \
             --query 'Instances[0].InstanceId' --output text)
           echo "EC2 instance ID: $instance_id"
 
