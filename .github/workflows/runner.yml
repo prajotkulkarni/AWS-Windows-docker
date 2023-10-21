@@ -37,14 +37,14 @@ jobs:
             --key-name ec2Win2022 \
             --security-group-ids sg-0de8cf629b11c00e5 \
             --subnet-id subnet-03be3039f3ef0ad2c \
-            --user-data "$script_content" \
+            --user-data "$userdata" \
             --query 'Instances[0].InstanceId' --output text)
           echo "EC2 instance ID: $instance_id"
 
           # Wait for the EC2 instance to be in the "running" state
           while [[ "$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].State.Name' --output text)" != "running" ]]; do
               echo "Waiting for EC2 instance to be in a running state..."
-              sleep 100
+              sleep 150
           done
 
           echo "EC2 instance is now in a running state."
