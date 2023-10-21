@@ -20,36 +20,31 @@ jobs:
           aws-secret-access-key: ${{ secrets.KEY }}
           aws-region: us-east-1
 
+      - name: Get PowerShell script content
+        id: get-script-content
+        run: |
+          script_content=$(cat path/to/powershell-script.ps1 | base64 -w 0)
+          echo "::set-output name=script_content::$script_content"
+        shell: bash
+
       - name: Create EC2 Instance
         id: create-ec2
         run: |
+          script_content="${{ steps.get-script-content.outputs.script_content }}"
           instance_id=$(aws ec2 run-instances \
             --image-id ami-005f8adf84f8c5057 \
             --instance-type t2.micro \
             --key-name ec2Win2022 \
             --security-group-ids sg-0de8cf629b11c00e5 \
             --subnet-id subnet-03be3039f3ef0ad2c \
+            --user-data "$script_content" \
             --query 'Instances[0].InstanceId' --output text)
           echo "EC2 instance ID: $instance_id"
 
           # Wait for the EC2 instance to be in the "running" state
           while [[ "$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].State.Name' --output text)" != "running" ]]; do
               echo "Waiting for EC2 instance to be in a running state..."
-              sleep 150
+              sleep 100
           done
 
           echo "EC2 instance is now in a running state."
-
-      - name: Add UserData
-        run: |
-          # Get the instance ID from the previous step
-          instance_id=$instance_id
-
-          # Specify the UserData script file
-          user_data_file="userdata.ps1"
-
-          # Base64 encode the UserData script and save it to a file
-          base64 -w 0 "$user_data_file" > user_data_base64.txt
-
-          # Set the UserData for the EC2 instance
-          aws ec2 modify-instance-attribute --instance-id $instance_id --user-data file://user_data_base64.txt
