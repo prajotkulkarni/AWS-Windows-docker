@@ -23,7 +23,7 @@ jobs:
       - name: Get PowerShell script content
         id: get-script-content
         run: |
-          script_content=$(cat path/to/powershell-script.ps1 | base64 -w 0)
+          script_content=$(cat userdata.ps1 | base64 -w 0)
           echo "::set-output name=script_content::$script_content"
         shell: bash
 
@@ -37,7 +37,7 @@ jobs:
             --key-name ec2Win2022 \
             --security-group-ids sg-0de8cf629b11c00e5 \
             --subnet-id subnet-03be3039f3ef0ad2c \
-            --user-data "$userdata" \
+            --user-data "$script_content" \
             --query 'Instances[0].InstanceId' --output text)
           echo "EC2 instance ID: $instance_id"
 
