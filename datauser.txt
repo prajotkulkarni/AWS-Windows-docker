@@ -5,7 +5,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 choco install git -y
 
 $Headers = @{
-   "Authorization" = "token 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"
+   "Authorization" = "token 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"
  }
 
 $GitHubApiUrl = "https://api.github.com/repos/prajotkulkarni/AWS-Windows-docker/actions/runners/registration-token"
